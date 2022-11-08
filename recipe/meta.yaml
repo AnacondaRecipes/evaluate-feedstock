@@ -51,8 +51,21 @@ test:
 about:
   home: https://github.com/huggingface/evaluate
   summary: HuggingFace community-driven open-source library of evaluation
+  description: |
+    Evaluate is a library that makes evaluating and comparing models and reporting their performance easier and more standardized.
+
+    It currently contains:
+
+      - implementations of dozens of popular metrics: the existing metrics cover a variety of tasks spanning from NLP to Computer Vision, and include dataset-specific metrics for datasets. With a simple command like `accuracy = load("accuracy")`, get any of these metrics ready to use for evaluating a ML model in any framework (Numpy/Pandas/PyTorch/TensorFlow/JAX).
+      - comparisons and measurements: comparisons are used to measure the difference between models and measurements are tools to evaluate datasets.
+      - an easy way of adding new evaluation modules to the 🤗 Hub: you can create new evaluation modules and push them to a dedicated Space in the 🤗 Hub with evaluate-cli create [metric name], which allows you to see easily compare different metrics and their outputs for the same sets of references and predictions.
   license: Apache-2.0
   license_file: LICENSE
+  license_family: Apache
+  license_url: https://github.com/huggingface/evaluate/blob/main/LICENSE
+  doc_url: https://huggingface.co/docs/evaluate/index
+  doc_source_url: https://github.com/huggingface/evaluate/tree/main/docs
+  dev_url: https://github.com/huggingface/evaluate
 
 extra:
   recipe-maintainers:
