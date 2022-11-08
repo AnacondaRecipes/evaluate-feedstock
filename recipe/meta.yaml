@@ -10,7 +10,7 @@ source:
   sha256: 4c3652306064bcf7bf87d548f244d0404d6b7a67bae76b6dc2f9f55402f26052
 
 build:
-  noarch: python
+  skip: true  # [py<37]
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv
@@ -18,10 +18,12 @@ build:
 
 requirements:
   host:
-    - python >=3.7
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3.7
+    - python
     - datasets >=2.0.0
     - numpy >=1.17
     - dill
