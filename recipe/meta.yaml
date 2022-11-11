@@ -37,7 +37,7 @@ requirements:
     - huggingface_hub >=0.7.0
     - packaging
     - responses <0.19
-    # - cookiecutter # to populate metric template
+    - cookiecutter # to populate metric template
 
 test:
   imports:
