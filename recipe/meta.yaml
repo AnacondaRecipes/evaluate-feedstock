@@ -63,11 +63,12 @@ about:
   license: Apache-2.0
   license_file: LICENSE
   license_family: Apache
-  license_url: https://github.com/huggingface/evaluate/blob/main/LICENSE
   doc_url: https://huggingface.co/docs/evaluate/index
-  doc_source_url: https://github.com/huggingface/evaluate/tree/main/docs
   dev_url: https://github.com/huggingface/evaluate
 
 extra:
   recipe-maintainers:
     - wietsedv
+  skip-lints:
+    - missing_license_url
+    - missing_doc_source_url
