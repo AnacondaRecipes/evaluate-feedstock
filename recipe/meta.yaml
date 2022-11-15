@@ -33,7 +33,7 @@ requirements:
     - tqdm >=4.62.1
     - python-xxhash
     - multiprocess
-    - importlib-metadata
+    - importlib-metadata  # [py<38]
     - fsspec >=2021.05.0
     - huggingface_hub >=0.7.0
     - packaging
