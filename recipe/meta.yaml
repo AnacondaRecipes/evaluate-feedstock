@@ -14,7 +14,7 @@ build:
   skip: true  # [py<37 or s390x]
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps
   number: 0
 
 requirements:
