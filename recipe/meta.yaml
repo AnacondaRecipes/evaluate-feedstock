@@ -38,6 +38,7 @@ requirements:
     - huggingface_hub >=0.7.0
     - packaging
     - responses <0.19
+    - cookiecutter # to populate metric template. Required by CLI: https://github.com/huggingface/evaluate/blob/v0.3.0/src/evaluate/commands/evaluate_cli.py#L6
 
 test:
   imports:
@@ -47,7 +48,6 @@ test:
     - evaluate-cli --help
   requires:
     - pip
-    - cookiecutter # to populate metric template. Required by CLI: https://github.com/huggingface/evaluate/blob/v0.3.0/src/evaluate/commands/evaluate_cli.py#L6
 
 about:
   home: https://github.com/huggingface/evaluate
