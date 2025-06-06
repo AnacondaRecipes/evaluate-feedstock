@@ -90,6 +90,7 @@ test:
     - scipy >=1.7.1
     - jiwer
     - nltk
+    - git  # [linux]
 
 about:
   home: https://github.com/huggingface/evaluate
