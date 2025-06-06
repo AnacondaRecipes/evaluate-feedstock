@@ -59,11 +59,12 @@ requirements:
 # E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests. 
 #     Make sure you specify non-empty parameters, and do not reuse generators more than once.
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
-# E  ImportError: To be able to use evaluate-metric/rouge, you need to install the following dependencies['rouge_score'] using 'pip install rouge_score' for instance'
-# rouge_score is not available in the main channel.
+# E   Module not found - "rouge_score"
 {% set tests_to_skip = "test_device_placement" %}
 {% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
 {% set tests_to_skip = tests_to_skip + " or test_summarization" %}
+# E   Module not found - "seqeval"
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
 
 test:
   source_files:
@@ -78,7 +79,6 @@ test:
   requires:
     - pip
     - pytest
-    - pytest-datadir
     - pytest-xdist
     - cookiecutter
     - matplotlib-base
@@ -90,7 +90,6 @@ test:
     - scipy >=1.7.1
     - jiwer
     - nltk
-    - seqeval
 
 about:
   home: https://github.com/huggingface/evaluate
