@@ -41,6 +41,7 @@ requirements:
     - aiohttp
     - huggingface_hub >=0.7.0
     - packaging
+    - cookiecutter
   run_constrained:
     # Extra: evaluator
     - scipy >=1.7.1
@@ -75,7 +76,6 @@ test:
     - pip
     - pytest
     - pytest-xdist
-    - cookiecutter
     - matplotlib-base
     - absl-py
     - pytorch
