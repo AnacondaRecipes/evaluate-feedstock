@@ -1,13 +1,19 @@
 {% set name = "evaluate" %}
-{% set version = "0.4.3" %}
+{% set version = "0.4.6" %}
+{% set ignore_tests = " --ignore=gh_src/tests/test_trainer_evaluator_parity.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
+{% set tests_to_skip = "test_device_placement" %}
+{% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
+{% set tests_to_skip = tests_to_skip + " or test_summarization" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 3a5700cf83aabee9549264e1e5666f116367c61dbd4d38352015e859a5e2098d
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: e07036ca12b3c24331f83ab787f21cc2dbf3631813a1631e63e40897c69a3f21
   - url: https://github.com/huggingface/evaluate/archive/refs/tags/v0.4.3.tar.gz
     sha256: af193874d5fdd3c4321e1b740e3f67232fac950d357dfd9034337e8c17a5d09e
     folder: gh_src
@@ -49,19 +55,14 @@ requirements:
     - gradio >=3.0.0
     # Extra: tensorflow
     - tensorflow-base >=2.2.0,!=2.6.0,!=2.6.1
+    - tensorflow >=2.2.0,!=2.6.0,!=2.6.1
+    - tensorflow-gpu >=2.2.0,!=2.6.0,!=2.6.1
 
 # Disabled by upstream: https://github.com/huggingface/evaluate/issues/632
-{% set ignore_tests = " --ignore=gh_src/tests/test_trainer_evaluator_parity.py" %}
-# E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests. 
+# E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests.
 #     Make sure you specify non-empty parameters, and do not reuse generators more than once.
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
 # E   Module not found - "rouge_score"
-{% set tests_to_skip = "test_device_placement" %}
-{% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
-{% set tests_to_skip = tests_to_skip + " or test_summarization" %}
 # E   Module not found - "seqeval"
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
-
 test:
   source_files:
     - gh_src/tests
@@ -95,9 +96,9 @@ about:
 
     It currently contains:
 
-      - implementations of dozens of popular metrics: the existing metrics cover a variety of tasks spanning from NLP to Computer Vision, and include dataset-specific metrics for datasets. With a simple command like `accuracy = load("accuracy")`, get any of these metrics ready to use for evaluating a ML model in any framework (Numpy/Pandas/PyTorch/TensorFlow/JAX).
-      - comparisons and measurements: comparisons are used to measure the difference between models and measurements are tools to evaluate datasets.
-      - an easy way of adding new evaluation modules to the 🤗 Hub: you can create new evaluation modules and push them to a dedicated Space in the 🤗 Hub with evaluate-cli create [metric name], which allows you to see easily compare different metrics and their outputs for the same sets of references and predictions.
+    - implementations of dozens of popular metrics: the existing metrics cover a variety of tasks spanning from NLP to Computer Vision, and include dataset-specific metrics for datasets. With a simple command like `accuracy = load("accuracy")`, get any of these metrics ready to use for evaluating a ML model in any framework (Numpy/Pandas/PyTorch/TensorFlow/JAX).
+    - comparisons and measurements: comparisons are used to measure the difference between models and measurements are tools to evaluate datasets.
+    - an easy way of adding new evaluation modules to the 🤗 Hub: you can create new evaluation modules and push them to a dedicated Space in the 🤗 Hub with evaluate-cli create [metric name], which allows you to see easily compare different metrics and their outputs for the same sets of references and predictions.
   license: Apache-2.0
   license_file: LICENSE
   license_family: Apache
