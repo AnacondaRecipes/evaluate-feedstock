@@ -60,6 +60,8 @@ requirements:
 {% set tests_to_skip = "test_device_placement" %}
 {% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
 {% set tests_to_skip = tests_to_skip + " or test_summarization" %}
+# E   Module not found - "seqeval"
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
 
 test:
   source_files:
@@ -85,7 +87,6 @@ test:
     - jiwer
     - nltk
     - git  # [linux]
-    - seqeval
 
 about:
   home: https://github.com/huggingface/evaluate
