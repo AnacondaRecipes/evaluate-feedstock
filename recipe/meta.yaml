@@ -1,11 +1,5 @@
 {% set name = "evaluate" %}
 {% set version = "0.4.6" %}
-{% set ignore_tests = " --ignore=gh_src/tests/test_trainer_evaluator_parity.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
-{% set tests_to_skip = "test_device_placement" %}
-{% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
-{% set tests_to_skip = tests_to_skip + " or test_summarization" %}
 
 package:
   name: {{ name|lower }}
@@ -47,7 +41,6 @@ requirements:
     - aiohttp
     - huggingface_hub >=0.7.0
     - packaging
-    - cookiecutter
   run_constrained:
     # Extra: evaluator
     - scipy >=1.7.1
@@ -55,14 +48,19 @@ requirements:
     - gradio >=3.0.0
     # Extra: tensorflow
     - tensorflow-base >=2.2.0,!=2.6.0,!=2.6.1
-    - tensorflow >=2.2.0,!=2.6.0,!=2.6.1
-    - tensorflow-gpu >=2.2.0,!=2.6.0,!=2.6.1
 
 # Disabled by upstream: https://github.com/huggingface/evaluate/issues/632
-# E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests.
+{% set ignore_tests = " --ignore=gh_src/tests/test_trainer_evaluator_parity.py" %}
+# E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests. 
 #     Make sure you specify non-empty parameters, and do not reuse generators more than once.
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
 # E   Module not found - "rouge_score"
+{% set tests_to_skip = "test_device_placement" %}
+{% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
+{% set tests_to_skip = tests_to_skip + " or test_summarization" %}
 # E   Module not found - "seqeval"
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
+
 test:
   source_files:
     - gh_src/tests
@@ -96,9 +94,9 @@ about:
 
     It currently contains:
 
-    - implementations of dozens of popular metrics: the existing metrics cover a variety of tasks spanning from NLP to Computer Vision, and include dataset-specific metrics for datasets. With a simple command like `accuracy = load("accuracy")`, get any of these metrics ready to use for evaluating a ML model in any framework (Numpy/Pandas/PyTorch/TensorFlow/JAX).
-    - comparisons and measurements: comparisons are used to measure the difference between models and measurements are tools to evaluate datasets.
-    - an easy way of adding new evaluation modules to the 🤗 Hub: you can create new evaluation modules and push them to a dedicated Space in the 🤗 Hub with evaluate-cli create [metric name], which allows you to see easily compare different metrics and their outputs for the same sets of references and predictions.
+      - implementations of dozens of popular metrics: the existing metrics cover a variety of tasks spanning from NLP to Computer Vision, and include dataset-specific metrics for datasets. With a simple command like `accuracy = load("accuracy")`, get any of these metrics ready to use for evaluating a ML model in any framework (Numpy/Pandas/PyTorch/TensorFlow/JAX).
+      - comparisons and measurements: comparisons are used to measure the difference between models and measurements are tools to evaluate datasets.
+      - an easy way of adding new evaluation modules to the 🤗 Hub: you can create new evaluation modules and push them to a dedicated Space in the 🤗 Hub with evaluate-cli create [metric name], which allows you to see easily compare different metrics and their outputs for the same sets of references and predictions.
   license: Apache-2.0
   license_file: LICENSE
   license_family: Apache
