@@ -1,13 +1,13 @@
 {% set name = "evaluate" %}
-{% set version = "0.4.3" %}
+{% set version = "0.4.6" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 3a5700cf83aabee9549264e1e5666f116367c61dbd4d38352015e859a5e2098d
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: e07036ca12b3c24331f83ab787f21cc2dbf3631813a1631e63e40897c69a3f21
   - url: https://github.com/huggingface/evaluate/archive/refs/tags/v0.4.3.tar.gz
     sha256: af193874d5fdd3c4321e1b740e3f67232fac950d357dfd9034337e8c17a5d09e
     folder: gh_src
@@ -41,6 +41,7 @@ requirements:
     - aiohttp
     - huggingface_hub >=0.7.0
     - packaging
+    # Needed for evaluate-cli command.
     - cookiecutter
   run_constrained:
     # Extra: evaluator
