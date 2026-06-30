@@ -64,6 +64,10 @@ requirements:
 {% set tests_to_skip = "test_device_placement" %}
 {% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
 {% set tests_to_skip = tests_to_skip + " or test_summarization" %}
+# E  FileNotFoundError: [WinError 2] The system cannot find the file specified - pid, tid
+{% set tests_to_skip = tests_to_skip + " or test_save_to_file" %}  # [win]
+{% set tests_to_skip = tests_to_skip + " or test_save_to_folder" %}  # [win]
+{% set tests_to_skip = tests_to_skip + " or test_save_to_folder_nested" %}  # [win]
 # E ValueError: zip() argument 2 is longer than argument 1
 {% set tests_to_skip = tests_to_skip + " or test_output_is_plot" %}
 # E   Module not found - "seqeval"
