@@ -2,7 +2,7 @@
 {% set version = "0.4.6" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -17,7 +17,8 @@ build:
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<38]
+  # No huggingface_hub <0.31.0 in main for py314
+  skip: true  # [py<38 or py>313]
 
 requirements:
   host:
@@ -39,7 +40,10 @@ requirements:
     # fsspec[http]
     - fsspec >=2021.05.0
     - aiohttp
-    - huggingface_hub >=0.7.0
+    # ImportError: cannot import name 'Repository' from 'huggingface_hub'
+    # Repository import, removed in 0.31:
+    # https://huggingface.co/docs/huggingface_hub/en/concepts/migration#repository-class
+    - huggingface_hub >=0.7.0,<0.31.0
     - packaging
     # Needed for evaluate-cli command.
     - cookiecutter
