@@ -13,7 +13,7 @@ source:
     folder: gh_src
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
