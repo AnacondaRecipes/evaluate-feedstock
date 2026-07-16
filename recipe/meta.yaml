@@ -13,12 +13,11 @@ source:
     folder: gh_src
 
 build:
-  number: 1
+  number: 2
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  # No huggingface_hub <0.31.0 in main for py314
-  skip: true  # [py<38 or py>313]
+  skip: true  # [py<38]
 
 requirements:
   host:
