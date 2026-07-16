@@ -14,7 +14,10 @@ build:
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<38]
+  # win skipped: this 0.4.1 backfill exists only for the axolotl 0.17.0 chain
+  # (Linux/macOS; lm_eval already skips win), and the win-64 conda-build hits an
+  # internal LoadLibrary error. Nothing on win needs evaluate ==0.4.1.
+  skip: true  # [py<38 or win]
 
 requirements:
   host:
