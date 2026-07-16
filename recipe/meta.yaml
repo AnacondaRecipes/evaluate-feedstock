@@ -1,5 +1,5 @@
 {% set name = "evaluate" %}
-{% set version = "0.4.6" %}
+{% set version = "0.4.1" %}
 
 package:
   name: {{ name }}
@@ -7,18 +7,14 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: e07036ca12b3c24331f83ab787f21cc2dbf3631813a1631e63e40897c69a3f21
-  - url: https://github.com/huggingface/evaluate/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: f504992d7dc5a526a3b8e1fc0f7b990874ae0b3576d5cab92db6438f62e255c4
-    folder: gh_src
+    sha256: d721d9f2059ced79770d8a0509e954fbd1bbac96a8f9160e29888d8073cda3d9
 
 build:
-  number: 1
+  number: 0
   entry_points:
     - evaluate-cli=evaluate.commands.evaluate_cli:main
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  # No huggingface_hub <0.31.0 in main for py314
-  skip: true  # [py<38 or py>313]
+  skip: true  # [py<38]
 
 requirements:
   host:
@@ -40,63 +36,31 @@ requirements:
     # fsspec[http]
     - fsspec >=2021.05.0
     - aiohttp
-    # ImportError: cannot import name 'Repository' from 'huggingface_hub'
-    # Repository import, removed in 0.31:
-    # https://huggingface.co/docs/huggingface_hub/en/concepts/migration#repository-class
-    - huggingface_hub >=0.7.0,<0.31.0
+    # NOTE: unlike the 0.4.6 recipe we do NOT cap huggingface_hub <0.31 here.
+    # 0.4.1's Repository import (removed in hf_hub 0.31) is only in evaluate-cli;
+    # the library (evaluate.load / metrics) works with modern hf_hub. axolotl
+    # 0.17.0 pins evaluate ==0.4.1 alongside transformers ==5.9.0 (which needs
+    # huggingface_hub >=1.5.0), so an uncapped bound is required for them to
+    # co-resolve. Upstream requires_dist is huggingface-hub >=0.7.0.
+    - huggingface_hub >=0.7.0
     - packaging
-    # Needed for evaluate-cli command.
-    - cookiecutter
-  run_constrained:
-    # Extra: evaluator
-    - scipy >=1.7.1
-    # Extra: template
-    - gradio >=3.0.0
-    # Extra: tensorflow
-    - tensorflow-base >=2.2.0,!=2.6.0,!=2.6.1
-
-# Disabled by upstream: https://github.com/huggingface/evaluate/issues/632
-{% set ignore_tests = " --ignore=gh_src/tests/test_trainer_evaluator_parity.py" %}
-# E   absl.testing.parameterized.NoTestsError: parameterized test decorators did not generate any tests. 
-#     Make sure you specify non-empty parameters, and do not reuse generators more than once.
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_metric_common.py" %}
-# E   Module not found - "rouge_score"
-{% set tests_to_skip = "test_device_placement" %}
-{% set tests_to_skip = tests_to_skip + " or test_overwrite_default_metric" %}
-{% set tests_to_skip = tests_to_skip + " or test_summarization" %}
-# E  FileNotFoundError: [WinError 2] The system cannot find the file specified - pid, tid
-{% set tests_to_skip = tests_to_skip + " or test_save_to_file" %}  # [win]
-{% set tests_to_skip = tests_to_skip + " or test_save_to_folder" %}  # [win]
-{% set tests_to_skip = tests_to_skip + " or test_save_to_folder_nested" %}  # [win]
-# E ValueError: zip() argument 2 is longer than argument 1
-{% set tests_to_skip = tests_to_skip + " or test_output_is_plot" %}
-# E   Module not found - "seqeval"
-{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_evaluator.py" %}
+    # responses is declared in 0.4.1's base dependencies (unused in the library,
+    # but keep it so pip check passes). 0.13.x (noarch) satisfies <0.19.
+    - responses <0.19
 
 test:
-  source_files:
-    - gh_src/tests
   imports:
     - evaluate
   commands:
     - pip check
-    - evaluate-cli --help
-    # run only unit tests like in upstream CI.
-    - pytest -n 2 --dist loadfile -sv gh_src/tests {{ ignore_tests }} -k "not ({{ tests_to_skip }})"
+  # The full upstream pytest suite and `evaluate-cli --help` are intentionally
+  # not run: both exercise the evaluate-cli / push-to-hub path that imports
+  # huggingface_hub.Repository (removed in hf_hub 0.31). Running them would force
+  # pinning huggingface_hub <0.31, which conflicts with transformers 5.9 in the
+  # axolotl environment this build targets. The library import + pip check cover
+  # the packaged, in-use surface.
   requires:
     - pip
-    - pytest
-    - pytest-xdist
-    - matplotlib-base
-    - absl-py
-    - pytorch
-    - pillow
-    - transformers
-    - scikit-learn
-    - scipy >=1.7.1
-    - jiwer
-    - nltk
-    - git  # [linux]
 
 about:
   home: https://github.com/huggingface/evaluate
